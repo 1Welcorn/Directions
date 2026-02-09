@@ -1,0 +1,5 @@
+{
+  "name": "Polyglot Memory AI",
+  "description": "An interactive language learning memory game powered by Gemini AI, featuring English-Portuguese translations, theme-based vocabulary generation, and AI-powered text-to-speech.",
+  "requestFramePermissions": []
+}
