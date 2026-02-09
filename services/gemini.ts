@@ -1,7 +1,11 @@
 
 import { GoogleGenAI, Modality } from "@google/genai";
 
-const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+const getAI = () => {
+  // Defensive check for environment variables
+  const apiKey = (typeof process !== 'undefined' && process.env && process.env.API_KEY) || '';
+  return new GoogleGenAI({ apiKey });
+};
 
 export const generateImage = async (prompt: string): Promise<string> => {
   const ai = getAI();

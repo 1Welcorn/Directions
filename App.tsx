@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { GameMode, DifficultyLevel, CardData, ToastMessage, Direction } from './types';
-import { INITIAL_DIRECTIONS, DIFFICULTY_SETTINGS } from './constants';
-import { storage } from './services/storage';
-import Card from './components/Card';
-import Toast from './components/Toast';
+import { GameMode, DifficultyLevel, CardData, ToastMessage, Direction } from './types.ts';
+import { INITIAL_DIRECTIONS, DIFFICULTY_SETTINGS } from './constants.ts';
+import { storage } from './services/storage.ts';
+import Card from './components/Card.tsx';
+import Toast from './components/Toast.tsx';
 
 const App: React.FC = () => {
   const [deck, setDeck] = useState<CardData[]>([]);
@@ -78,7 +78,6 @@ const App: React.FC = () => {
   const createDeck = useCallback(async (directions: Direction[], gameMode: GameMode, level: DifficultyLevel) => {
     const settings = DIFFICULTY_SETTINGS[level];
     
-    // HARD mode logic: select indices 8 to 15 (8 advanced pairs)
     let activeDirections: Direction[];
     if (level === DifficultyLevel.HARD) {
       activeDirections = directions.slice(8, 16);
@@ -160,7 +159,6 @@ const App: React.FC = () => {
   const onFlip = (id: string) => {
     if (lock || flippedIds.length >= 2) return;
     
-    // Start timer on first flip
     if (startTime === null) {
       setStartTime(Date.now());
       setTimerRunning(true);
@@ -187,7 +185,6 @@ const App: React.FC = () => {
           setFlippedIds([]);
           setLock(false);
           
-          // Win Condition
           const totalPairs = DIFFICULTY_SETTINGS[difficulty].pairs;
           if (newMatches === totalPairs) {
             setTimerRunning(false);
@@ -210,7 +207,7 @@ const App: React.FC = () => {
       const totalCards = DIFFICULTY_SETTINGS[difficulty].pairs * 2;
       let cols = 4;
       if (totalCards >= 30) cols = 6;
-      else if (totalCards === 16) cols = 4; // Perfect 4x4 for Hard mode
+      else if (totalCards === 16) cols = 4;
       else if (totalCards > 8) cols = 4;
       
       return {
