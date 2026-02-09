@@ -53,10 +53,10 @@ const App: React.FC = () => {
         }
       }, 1000);
     } else {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) clearInterval(timerRef.current as number);
     }
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) clearInterval(timerRef.current as number);
     };
   }, [timerRunning, startTime]);
 
@@ -210,7 +210,7 @@ const App: React.FC = () => {
       const totalCards = DIFFICULTY_SETTINGS[difficulty].pairs * 2;
       let cols = 4;
       if (totalCards >= 30) cols = 6;
-      else if (totalCards === 16) cols = 4; // Perfect 4x4 for 16 cards (Hard)
+      else if (totalCards === 16) cols = 4; // Perfect 4x4 for Hard mode
       else if (totalCards > 8) cols = 4;
       
       return {
@@ -253,8 +253,8 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex gap-2">
-              <button onClick={toggleFullScreen} className="p-2.5 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-indigo-600 border border-slate-100" title="Full Screen"><i className="fas fa-expand"></i></button>
-              <button onClick={() => resetGame()} className="p-2.5 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-indigo-600 border border-slate-100" title="Reset Game"><i className="fas fa-redo-alt"></i></button>
+              <button aria-label="Toggle Fullscreen" onClick={toggleFullScreen} className="p-2.5 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-indigo-600 border border-slate-100"><i className="fas fa-expand"></i></button>
+              <button aria-label="Reset Game" onClick={() => resetGame()} className="p-2.5 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-indigo-600 border border-slate-100"><i className="fas fa-redo-alt"></i></button>
             </div>
           </div>
         </header>
@@ -273,10 +273,12 @@ const App: React.FC = () => {
       <main className={`${isFullScreen ? 'w-full h-full' : 'max-w-[1400px] mx-auto px-6 mt-8'}`}>
         {!isFullScreen && (
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 bg-white p-4 rounded-[2.5rem] border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto no-scrollbar">
+            <div role="tablist" className="flex items-center gap-2 w-full md:w-auto overflow-x-auto no-scrollbar">
               {Object.values(DifficultyLevel).map(level => (
                 <button 
                   key={level} 
+                  role="tab"
+                  aria-selected={difficulty === level}
                   onClick={() => resetGame(mode, level)} 
                   className={`px-6 py-2.5 rounded-2xl text-xs font-black transition-all whitespace-nowrap ${difficulty === level ? 'bg-indigo-600 text-white shadow-lg' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
                 >
